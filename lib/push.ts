@@ -23,9 +23,9 @@ export async function sendTurnNotification(playerId: string): Promise<void> {
   })
 
   await Promise.allSettled(
-    subscriptions.map((sub: { endpoint: string; p256dh: string; auth: string }) =>
+    subscriptions.map((sub: Record<string, unknown>) =>
       webpush.sendNotification(
-        { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
+        { endpoint: sub['endpoint'] as string, keys: { p256dh: sub['p256dh'] as string, auth: sub['auth'] as string } },
         payload
       )
     )

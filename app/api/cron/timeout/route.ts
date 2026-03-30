@@ -24,14 +24,26 @@ export async function GET(request: NextRequest) {
     const activePlayers = await sql`
       SELECT id FROM players WHERE game_id = ${game.id} AND is_active = true ORDER BY join_order
     `
+
+    if (activePlayers.length === 0) {
+      await sql`UPDATE games SET status = 'expired' WHERE id = ${game.id}`
+      processed++
+      continue
+    }
+
     const currentIndex = (game.current_round - 1) % activePlayers.length
     const timedOutPlayer = activePlayers[currentIndex]
 
     if (timedOutPlayer) {
-      await sql`UPDATE players SET is_active = false WHERE id = ${timedOutPlayer.id}`
+      const updated = await sql`
+        UPDATE players SET is_active = false
+        WHERE id = ${timedOutPlayer.id} AND is_active = true
+        RETURNING id
+      `
+      if (updated.length === 0) continue // already processed, skip
     }
 
-    const remaining = activePlayers.filter((p: { id: string }) => p.id !== timedOutPlayer?.id)
+    const remaining = activePlayers.filter((p: Record<string, unknown>) => p['id'] !== timedOutPlayer?.id)
 
     if (remaining.length < 1) {
       await sql`UPDATE games SET status = 'expired' WHERE id = ${game.id}`
@@ -41,7 +53,9 @@ export async function GET(request: NextRequest) {
       await sql`UPDATE games SET current_round = current_round + 1 WHERE id = ${game.id}`
       const nextIndex = game.current_round % remaining.length
       const nextId = remaining[nextIndex]?.id
-      if (nextId) await sendTurnNotification(nextId).catch(() => {})
+      if (nextId) await sendTurnNotification(nextId).catch((err) => {
+        console.error(`[cron/timeout] push notification failed for player ${nextId}:`, err)
+      })
     }
     processed++
   }
