@@ -83,6 +83,7 @@ export default function CreatePage() {
             onChange={e => setOpeningLine(e.target.value)}
             placeholder="It was a perfectly ordinary Tuesday…"
             rows={3}
+            maxLength={500}
             className="py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white text-sm resize-none outline-none italic"
           />
         </div>
@@ -95,7 +96,7 @@ export default function CreatePage() {
             type="number"
             min={1}
             value={timeoutHours}
-            onChange={e => setTimeoutHours(e.target.value === '' ? '' : parseInt(e.target.value))}
+            onChange={e => setTimeoutHours(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
             placeholder="e.g. 24"
             className="w-32 text-center py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-600 dark:text-slate-300 text-sm outline-none"
           />
