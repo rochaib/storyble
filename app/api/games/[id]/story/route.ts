@@ -7,7 +7,7 @@ export async function GET(
 ) {
   const { id } = await params
   const [game] = await sql`
-    SELECT id, status, opening_line, total_rounds FROM games WHERE id = ${id}
+    SELECT id, status, opening_line FROM games WHERE id = ${id}
   `
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   if (game.status !== 'complete') return NextResponse.json({ error: 'Story not yet complete' }, { status: 403 })
