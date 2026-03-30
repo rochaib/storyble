@@ -41,18 +41,21 @@ export default function LobbyPage() {
     return () => clearInterval(interval)
   }, [poll])
 
-  const isCreator = data?.players[0]?.id === playerId
+  const isCreator = data?.players.find(p => p.join_order === 1)?.id === playerId
   const canStart = isCreator && (data?.players.length ?? 0) >= 2
 
   async function handleStart() {
     if (!playerId) return
     setStarting(true)
     try {
-      await fetch(`/api/games/${id}/start`, {
+      const res = await fetch(`/api/games/${id}/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ creator_player_id: playerId }),
       })
+      if (res.ok) {
+        await poll()
+      }
     } catch (err) {
       console.error('Start game failed:', err)
     } finally {
