@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs'
 import { SignJWT, jwtVerify } from 'jose'
 
-function getJwtSecret() {
-  return Buffer.from(
-    process.env.ADMIN_JWT_SECRET ?? 'dev-secret-change-in-production-32ch'
-  )
+function getJwtSecret(): Uint8Array {
+  const secret = process.env.ADMIN_JWT_SECRET
+  if (!secret) throw new Error('ADMIN_JWT_SECRET environment variable is required')
+  return new TextEncoder().encode(secret)
 }
 
 export async function verifyAdminPassword(password: string): Promise<boolean> {
