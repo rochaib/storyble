@@ -41,8 +41,10 @@ export default function AdminGameDetailPage() {
     fetch(`/admin/api/games/${id}/view`)
       .then(async r => {
         const data = await r.json()
-        if (!r.ok) setError(data.error ?? 'Not found')
-        else setDetail(data as GameDetail)
+        if (!r.ok) { setError(data.error ?? 'Not found'); return }
+        const detail = data as GameDetail
+        if (!detail.game?.id) { setError('Invalid response from server'); return }
+        setDetail(detail)
       })
       .catch(err => {
         console.error('Game detail fetch failed:', err)

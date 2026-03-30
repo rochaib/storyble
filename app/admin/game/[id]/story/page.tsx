@@ -35,8 +35,10 @@ export default function AdminStoryPage() {
     fetch(`/admin/api/games/${id}/story`)
       .then(async r => {
         const data = await r.json()
-        if (!r.ok) setError(data.error ?? 'Not found')
-        else setStory(data as StoryData)
+        if (!r.ok) { setError(data.error ?? 'Not found'); return }
+        const story = data as StoryData
+        if (!story.game?.id) { setError('Invalid response from server'); return }
+        setStory(story)
       })
       .catch(err => {
         console.error('Story fetch failed:', err)
@@ -60,8 +62,9 @@ export default function AdminStoryPage() {
 
   const entries = story
     ? [
-        { sentence: story.game.opening_line, label: 'Opening', timestamp: story.game.created_at },
+        { key: 'opening', sentence: story.game.opening_line, label: 'Opening', timestamp: story.game.created_at },
         ...story.turns.map(t => ({
+          key: `round-${t.round_number}`,
           sentence: t.sentence,
           label: t.nickname,
           timestamp: t.submitted_at,
@@ -94,7 +97,7 @@ export default function AdminStoryPage() {
           <div className="flex flex-col gap-4">
             {entries.map((entry, i) => (
               <div
-                key={i}
+                key={entry.key}
                 className="rounded-lg px-4 py-3 bg-white border border-slate-200"
                 style={{ borderLeftWidth: '3px', borderLeftColor: COLORS[i % COLORS.length] }}
               >
