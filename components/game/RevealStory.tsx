@@ -18,7 +18,7 @@ export function RevealStory({ entries, onAllRevealed }: Props) {
   useEffect(() => {
     if (fastForward) {
       setRevealed(entries.length)
-      onAllRevealed?.()
+      // Don't call onAllRevealed here — let the revealed >= entries.length branch handle it
       return
     }
     if (revealed >= entries.length) {
