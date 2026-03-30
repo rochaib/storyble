@@ -20,7 +20,12 @@ export default function TurnPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPlayerId(localStorage.getItem('fold_player_id'))
+      const id = localStorage.getItem('fold_player_id')
+      if (!id) {
+        setError('Session expired. Please rejoin the game.')
+      } else {
+        setPlayerId(id)
+      }
     }
   }, [])
 
