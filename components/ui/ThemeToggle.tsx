@@ -1,13 +1,24 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useThemeStore } from '@/store/theme'
 
 export function ThemeToggle() {
   const { theme, toggle } = useThemeStore()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark')
-  }, [theme])
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.classList.toggle('dark', theme === 'dark')
+    }
+  }, [theme, mounted])
+
+  if (!mounted) {
+    return <span className="w-7 h-7 inline-block" aria-hidden />
+  }
 
   return (
     <button
