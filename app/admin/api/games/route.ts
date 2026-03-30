@@ -7,11 +7,10 @@ export async function GET(request: NextRequest) {
   const query = searchParams.get('q')?.trim()
 
   // Build the games query
-  // Default: show lobby, active, complete, archived (exclude expired)
-  const allowedStatuses = ['lobby', 'active', 'complete', 'archived', 'locked']
-  const statusesToShow = statusFilter && allowedStatuses.includes(statusFilter)
-    ? [statusFilter]
-    : allowedStatuses
+  // If a specific status filter was requested, use it directly (even if it returns nothing)
+  // If no filter, default to non-expired statuses
+  const defaultStatuses = ['lobby', 'active', 'complete', 'archived', 'locked']
+  const statusesToShow = statusFilter ? [statusFilter] : defaultStatuses
 
   let games
   if (query) {

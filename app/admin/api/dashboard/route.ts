@@ -21,15 +21,19 @@ export async function GET() {
     WHERE g.created_at >= now() - interval '7 days'
   `
 
-  const npsRows = await sql`
-    SELECT score FROM nps_responses
+  const [npsData] = await sql`
+    SELECT
+      COUNT(*)::int AS total,
+      COUNT(CASE WHEN score >= 9 THEN 1 END)::int AS promoters,
+      COUNT(CASE WHEN score <= 6 THEN 1 END)::int AS detractors
+    FROM nps_responses
   `
 
+  const npsTotal = npsData.total as number
   let npsScore: number | null = null
-  const npsTotal = npsRows.length
   if (npsTotal > 0) {
-    const promoters = npsRows.filter((r: Record<string, unknown>) => (r.score as number) >= 9).length
-    const detractors = npsRows.filter((r: Record<string, unknown>) => (r.score as number) <= 6).length
+    const promoters = npsData.promoters as number
+    const detractors = npsData.detractors as number
     npsScore = Math.round(((promoters - detractors) / npsTotal) * 100)
   }
 
