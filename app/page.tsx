@@ -24,9 +24,17 @@ export default function HomePage() {
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error ?? 'Could not join'); return }
-      localStorage.setItem('fold_player_id', data.player_id)
-      router.push(`/game/${data.game_id}/lobby`)
-    } catch {
+      const { player_id, game_id } = data as { player_id?: string; game_id?: string }
+      if (!player_id || !game_id) {
+        setError('Unexpected server response')
+        return
+      }
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('fold_player_id', player_id)
+      }
+      router.push(`/game/${game_id}/lobby`)
+    } catch (err) {
+      console.error('handleJoin failed:', err)
       setError('Something went wrong')
     } finally {
       setLoading(false)
