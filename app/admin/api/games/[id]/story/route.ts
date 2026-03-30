@@ -17,7 +17,7 @@ export async function GET(
   if (game.status !== 'complete' && game.status !== 'archived') {
     return NextResponse.json(
       { error: 'Story only available for complete or archived games' },
-      { status: 403 }
+      { status: 409 }
     )
   }
 
