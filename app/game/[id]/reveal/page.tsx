@@ -5,6 +5,7 @@ import { TopBar } from '@/components/ui/TopBar'
 import { RevealStory } from '@/components/game/RevealStory'
 import { ReactionBar } from '@/components/game/ReactionBar'
 import { NpsPrompt } from '@/components/game/NpsPrompt'
+import { InstallBanner } from '@/components/game/InstallBanner'
 
 type Story = {
   opening_line: string
@@ -73,6 +74,7 @@ export default function RevealPage() {
                 Share Story
               </button>
               <NpsPrompt />
+              <InstallBanner />
             </>
           )}
         </div>

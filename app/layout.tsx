@@ -7,6 +7,8 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Fold & Pass',
   description: 'The collaborative story game',
+  manifest: '/manifest.json',
+  themeColor: '#e94560',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
