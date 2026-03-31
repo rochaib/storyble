@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
 export default withPWA({
   dest: 'public',
   register: true,
+  customWorkerSrc: 'worker',
   disable: process.env.NODE_ENV === 'development',
   workboxOptions: {
     skipWaiting: true,
