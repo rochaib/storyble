@@ -43,7 +43,7 @@ export default function RevealPage() {
   function handleShare() {
     const text = entries.map(e => `"${e.sentence}"`).join('\n\n')
     if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({ title: 'Our Fold & Pass story', text }).catch(() => {})
+      navigator.share({ title: 'Our Storyble story', text }).catch(() => {})
     } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(text).catch(() => {})
     }

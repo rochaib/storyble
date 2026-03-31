@@ -35,7 +35,7 @@ export function NpsPrompt() {
   return (
     <div className="bg-slate-100 dark:bg-[#0f3460] rounded-lg p-4 flex flex-col gap-3">
       <p className="text-sm text-slate-600 dark:text-slate-300 text-center">
-        Would you recommend Fold &amp; Pass to a friend?
+        Would you recommend Storyble to a friend?
       </p>
       <div className="flex justify-between gap-1">
         {Array.from({ length: 11 }, (_, i) => (

@@ -1,6 +1,6 @@
 {
-  "name": "Fold & Pass",
-  "short_name": "Fold & Pass",
+  "name": "Storyble",
+  "short_name": "Storyble",
   "description": "The collaborative folded story game",
   "start_url": "/",
   "display": "standalone",

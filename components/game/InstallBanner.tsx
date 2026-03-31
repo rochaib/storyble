@@ -25,7 +25,7 @@ export function InstallBanner() {
   return (
     <div className="flex items-center justify-between gap-3 bg-slate-100 dark:bg-[#0f3460] rounded-lg p-4">
       <p className="text-sm text-slate-600 dark:text-slate-300 flex-1">
-        Enjoyed the game? Install Fold &amp; Pass for notifications when it&apos;s your turn.
+        Enjoyed the game? Install Storyble for notifications when it&apos;s your turn.
       </p>
       <div className="flex flex-col gap-1">
         <button

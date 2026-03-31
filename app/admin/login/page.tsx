@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
     <main className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
       <div className="w-full max-w-xs">
         <div className="text-center mb-8">
-          <p className="text-[#e94560] font-bold tracking-widest text-sm uppercase">Fold &amp; Pass</p>
+          <p className="text-[#e94560] font-bold tracking-widest text-sm uppercase">Storyble</p>
           <p className="text-slate-400 text-xs mt-1">/ admin</p>
         </div>
         <form onSubmit={handleLogin} className="flex flex-col gap-4">

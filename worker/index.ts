@@ -8,10 +8,10 @@ self.addEventListener('push', (event: PushEvent) => {
   try {
     payload = event.data.json()
   } catch {
-    payload = { title: 'Fold & Pass', body: event.data.text() }
+    payload = { title: 'Storyble', body: event.data.text() }
   }
 
-  const title = payload.title ?? 'Fold & Pass'
+  const title = payload.title ?? 'Storyble'
   const options: NotificationOptions = {
     body: payload.body ?? "It's your turn!",
     icon: payload.icon ?? '/icons/icon-192.png',

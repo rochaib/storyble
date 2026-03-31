@@ -17,7 +17,7 @@ export async function sendTurnNotification(playerId: string): Promise<void> {
   if (subscriptions.length === 0) return
 
   const payload = JSON.stringify({
-    title: 'Fold & Pass',
+    title: 'Storyble',
     body: "It's your turn!",
     icon: '/icons/icon-192.png',
   })
