@@ -11,6 +11,7 @@ export default function LobbyPage() {
   const [data, setData] = useState<GamePollResponse | null>(null)
   const [expired, setExpired] = useState(false)
   const [starting, setStarting] = useState(false)
+  const [closing, setClosing] = useState(false)
   const [playerId, setPlayerId] = useState<string | null>(null)
   const [gameCode, setGameCode] = useState<string | null>(null)
 
@@ -31,6 +32,9 @@ export default function LobbyPage() {
       setData(json)
       if (json.game?.status === 'active') {
         router.push(`/game/${id}/waiting`)
+      }
+      if (json.game?.status === 'closed') {
+        router.replace('/')
       }
     } catch (err) {
       console.error('Lobby poll failed:', err)
@@ -62,6 +66,22 @@ export default function LobbyPage() {
       console.error('Start game failed:', err)
     } finally {
       setStarting(false)
+    }
+  }
+
+  async function handleClose() {
+    if (!playerId) return
+    setClosing(true)
+    try {
+      await fetch(`/api/games/${id}/close`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ player_id: playerId }),
+      })
+      router.replace('/')
+    } catch (err) {
+      console.error('Close game failed:', err)
+      setClosing(false)
     }
   }
 
@@ -97,13 +117,22 @@ export default function LobbyPage() {
           <PlayerList players={data?.players ?? []} currentPlayerId={playerId ?? undefined} />
         </div>
         {isCreator ? (
-          <button
-            onClick={handleStart}
-            disabled={!canStart || starting}
-            className="w-full py-3 rounded-lg bg-[#e94560] text-white font-bold hover:bg-[#c73652] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-          >
-            {starting ? 'Starting…' : canStart ? 'Start Game' : 'Waiting for players…'}
-          </button>
+          <>
+            <button
+              onClick={handleStart}
+              disabled={!canStart || starting}
+              className="w-full py-3 rounded-lg bg-[#e94560] text-white font-bold hover:bg-[#c73652] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              {starting ? 'Starting…' : canStart ? 'Start Game' : 'Waiting for players…'}
+            </button>
+            <button
+              onClick={handleClose}
+              disabled={closing}
+              className="text-slate-400 dark:text-slate-500 text-xs underline hover:text-slate-600 dark:hover:text-slate-300 transition-colors disabled:opacity-40"
+            >
+              {closing ? 'Cancelling…' : 'Cancel game'}
+            </button>
+          </>
         ) : (
           <p className="text-slate-400 text-sm text-center">Waiting for the creator to start…</p>
         )}
