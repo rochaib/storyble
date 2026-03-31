@@ -33,7 +33,7 @@ export function usePushSubscription() {
       const subJson = subscription.toJSON()
       if (!subJson.endpoint || !subJson.keys?.p256dh || !subJson.keys?.auth) return
 
-      await fetch('/api/push/subscribe', {
+      const subRes = await fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -47,6 +47,9 @@ export function usePushSubscription() {
           },
         }),
       })
+      if (!subRes.ok) {
+        console.warn('[push] Subscription POST failed:', subRes.status)
+      }
     } catch (err) {
       console.error('Push subscription failed:', err)
     }

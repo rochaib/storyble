@@ -17,6 +17,8 @@ export function InstallBanner() {
   if (!canPrompt) return null
 
   function handleInstall() {
+    // If playerId is null (session cleared), install without push subscription —
+    // user can manually re-join a game to receive notifications.
     triggerPrompt(playerId ? () => subscribe(playerId!) : undefined)
   }
 
