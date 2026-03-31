@@ -19,10 +19,14 @@ export function useInstallPrompt() {
     return () => window.removeEventListener('beforeinstallprompt', handler)
   }, [])
 
-  async function triggerPrompt() {
+  async function triggerPrompt(onInstalled?: () => void) {
     if (!promptEvent) return
     await promptEvent.prompt()
+    const choice = await promptEvent.userChoice
     setPromptEvent(null)
+    if (choice.outcome === 'accepted' && onInstalled) {
+      onInstalled()
+    }
   }
 
   function dismiss() {

@@ -1,10 +1,24 @@
 'use client'
+import { useEffect, useState } from 'react'
 import { useInstallPrompt } from '@/hooks/useInstallPrompt'
+import { usePushSubscription } from '@/hooks/usePushSubscription'
 
 export function InstallBanner() {
   const { canPrompt, triggerPrompt, dismiss } = useInstallPrompt()
+  const { subscribe } = usePushSubscription()
+  const [playerId, setPlayerId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPlayerId(localStorage.getItem('fold_player_id'))
+    }
+  }, [])
 
   if (!canPrompt) return null
+
+  function handleInstall() {
+    triggerPrompt(playerId ? () => subscribe(playerId!) : undefined)
+  }
 
   return (
     <div className="flex items-center justify-between gap-3 bg-slate-100 dark:bg-[#0f3460] rounded-lg p-4">
@@ -13,7 +27,7 @@ export function InstallBanner() {
       </p>
       <div className="flex flex-col gap-1">
         <button
-          onClick={triggerPrompt}
+          onClick={handleInstall}
           className="px-3 py-1.5 rounded-lg bg-[#e94560] text-white text-xs font-bold"
         >
           Install
