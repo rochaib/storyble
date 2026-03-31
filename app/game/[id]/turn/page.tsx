@@ -44,14 +44,29 @@ export default function TurnPage() {
   }, [id, playerId])
 
   if (error) {
+    const gameEnded = error === 'Game not active' || error === 'Game is locked'
     return (
       <main className="max-w-sm mx-auto px-6 py-8">
         <TopBar />
-        <div className="mt-8 text-center">
-          <p className="text-red-500">{error}</p>
-          <button onClick={() => router.push(`/game/${id}/waiting`)} className="mt-4 text-[#e94560] text-sm underline">
-            Back to waiting
-          </button>
+        <div className="text-center mt-16">
+          {gameEnded ? (
+            <>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">This game has ended.</p>
+              <button
+                onClick={() => router.push('/')}
+                className="mt-4 text-[#e94560] text-sm underline"
+              >
+                Go home
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-red-500 text-sm">{error}</p>
+              <button onClick={() => router.push(`/game/${id}/waiting`)} className="mt-4 text-[#e94560] text-sm underline">
+                Back to waiting
+              </button>
+            </>
+          )}
         </div>
       </main>
     )
