@@ -38,7 +38,7 @@ export async function GET(
   `
 
   const activePlayers = players.filter((p: Record<string, unknown>) => p['is_active'])
-  const currentPlayerIndex = (game.current_round - 1) % (activePlayers.length || 1)
+  const currentPlayerIndex = game.current_round % (activePlayers.length || 1)
   const currentPlayerId = activePlayers[currentPlayerIndex]?.id ?? null
 
   return NextResponse.json({

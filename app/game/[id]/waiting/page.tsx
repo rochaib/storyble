@@ -12,9 +12,11 @@ export default function WaitingPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPlayerId(localStorage.getItem('fold_player_id'))
+      const stored = sessionStorage.getItem('fold_player_id')
+      if (!stored) { router.replace('/'); return }
+      setPlayerId(stored)
     }
-  }, [])
+  }, [router])
 
   const poll = useCallback(async () => {
     try {

@@ -10,7 +10,9 @@ export async function GET(
     SELECT id, status, opening_line FROM games WHERE id = ${id}
   `
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-  if (game.status !== 'complete') return NextResponse.json({ error: 'Story not yet complete' }, { status: 403 })
+  if (game.status !== 'complete' && game.status !== 'archived') {
+    return NextResponse.json({ error: 'Story not yet complete' }, { status: 403 })
+  }
 
   const turns = await sql`
     SELECT t.sentence, t.round_number, p.nickname

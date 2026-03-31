@@ -45,8 +45,8 @@ export default function CreatePage() {
       if (!player_id || !game_id) { setError('Unexpected server response'); return }
 
       if (typeof window !== 'undefined') {
-        localStorage.setItem('fold_player_id', player_id)
-        localStorage.setItem('fold_game_code', createData.code)
+        sessionStorage.setItem('fold_player_id', player_id)
+        sessionStorage.setItem('fold_game_code', createData.code)
       }
       router.push(`/game/${game_id}/lobby`)
     } catch (err) {

@@ -10,7 +10,7 @@ export function InstallBanner() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPlayerId(localStorage.getItem('fold_player_id'))
+      setPlayerId(sessionStorage.getItem('fold_player_id'))
     }
   }, [])
 

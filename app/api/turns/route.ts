@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     WHERE game_id = ${game_id} AND is_active = true
     ORDER BY join_order
   `
-  const currentIndex = (game.current_round - 1) % activePlayers.length
+  const currentIndex = game.current_round % activePlayers.length
   if (activePlayers[currentIndex]?.id !== player_id) {
     return NextResponse.json({ error: 'Not your turn' }, { status: 403 })
   }
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     await sql`UPDATE games SET status = 'complete' WHERE id = ${game_id}`
   } else {
     await sql`UPDATE games SET current_round = current_round + 1 WHERE id = ${game_id}`
-    const nextIndex = game.current_round % activePlayers.length
+    const nextIndex = (game.current_round + 1) % activePlayers.length
     const nextPlayerId = activePlayers[nextIndex]?.id
     if (nextPlayerId) await sendTurnNotification(nextPlayerId).catch(() => {})
   }

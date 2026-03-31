@@ -23,7 +23,7 @@ export async function GET(
     WHERE game_id = ${id} AND is_active = true
     ORDER BY join_order
   `
-  const currentIndex = (game.current_round - 1) % activePlayers.length
+  const currentIndex = game.current_round % activePlayers.length
   if (activePlayers[currentIndex]?.id !== playerId) {
     return NextResponse.json({ error: 'Not your turn' }, { status: 403 })
   }

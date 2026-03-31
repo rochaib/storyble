@@ -16,10 +16,12 @@ export default function LobbyPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPlayerId(localStorage.getItem('fold_player_id'))
-      setGameCode(localStorage.getItem('fold_game_code'))
+      const stored = sessionStorage.getItem('fold_player_id')
+      if (!stored) { router.replace('/'); return }
+      setPlayerId(stored)
+      setGameCode(sessionStorage.getItem('fold_game_code'))
     }
-  }, [])
+  }, [router])
 
   const poll = useCallback(async () => {
     try {

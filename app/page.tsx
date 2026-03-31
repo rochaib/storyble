@@ -30,7 +30,7 @@ export default function HomePage() {
         return
       }
       if (typeof window !== 'undefined') {
-        localStorage.setItem('fold_player_id', player_id)
+        sessionStorage.setItem('fold_player_id', player_id)
       }
       router.push(`/game/${game_id}/lobby`)
     } catch (err) {

@@ -20,9 +20,9 @@ export default function TurnPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const id = localStorage.getItem('fold_player_id')
+      const id = sessionStorage.getItem('fold_player_id')
       if (!id) {
-        setError('Session expired. Please rejoin the game.')
+        router.replace('/')
       } else {
         setPlayerId(id)
       }

@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       continue
     }
 
-    const currentIndex = (game.current_round - 1) % activePlayers.length
+    const currentIndex = game.current_round % activePlayers.length
     const timedOutPlayer = activePlayers[currentIndex]
 
     if (timedOutPlayer) {
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
       await sql`UPDATE games SET status = 'complete' WHERE id = ${game.id}`
     } else {
       await sql`UPDATE games SET current_round = current_round + 1 WHERE id = ${game.id}`
-      const nextIndex = game.current_round % remaining.length
+      const nextIndex = (game.current_round + 1) % remaining.length
       const nextId = remaining[nextIndex]?.id
       if (nextId) await sendTurnNotification(nextId).catch((err) => {
         console.error(`[cron/timeout] push notification failed for player ${nextId}:`, err)
