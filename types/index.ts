@@ -1,6 +1,6 @@
 export type GameStatus =
   | 'lobby' | 'active' | 'complete'
-  | 'expired' | 'archived' | 'locked'
+  | 'expired' | 'archived' | 'locked' | 'closed'
 
 export type Game = {
   id: string
