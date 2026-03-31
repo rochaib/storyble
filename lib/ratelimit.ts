@@ -24,4 +24,9 @@ export const rateLimits = {
     limiter: Ratelimit.slidingWindow(60, '1 m'),
     prefix: 'rl:poll',
   }),
+  closeGame: new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(5, '1 m'),
+    prefix: 'rl:close',
+  }),
 }
