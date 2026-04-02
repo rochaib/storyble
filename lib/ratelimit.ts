@@ -1,7 +1,10 @@
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 
-const redis = Redis.fromEnv()
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL ?? process.env.storage_KV_REST_API_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.storage_KV_REST_API_TOKEN!,
+})
 
 export const rateLimits = {
   createGame: new Ratelimit({
