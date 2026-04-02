@@ -10,7 +10,7 @@ type GameDetail = {
     opening_line: string
     total_rounds: number
     current_round: number
-    timeout_hours: number | null
+    timeout_minutes: number | null
     created_at: string
   }
   players: Array<{
@@ -104,7 +104,7 @@ export default function AdminGameDetailPage() {
               </div>
               <div>
                 <dt className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Turn timeout</dt>
-                <dd className="text-slate-700">{detail.game.timeout_hours ? `${detail.game.timeout_hours}h` : 'None'}</dd>
+                <dd className="text-slate-700">{detail.game.timeout_minutes ? (detail.game.timeout_minutes >= 60 ? `${detail.game.timeout_minutes / 60}h` : `${detail.game.timeout_minutes}m`) : 'None'}</dd>
               </div>
             </dl>
           </div>

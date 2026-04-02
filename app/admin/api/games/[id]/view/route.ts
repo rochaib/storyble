@@ -9,7 +9,7 @@ export async function GET(
 
   const [game] = await sql`
     SELECT id, status, opening_line, total_rounds, current_round,
-           timeout_hours, created_at
+           timeout_minutes, created_at
     FROM games WHERE id = ${id}
   `
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })

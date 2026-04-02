@@ -10,13 +10,13 @@ export async function GET(request: NextRequest) {
   const timedOutGames = await sql`
     SELECT g.id, g.current_round, g.total_rounds
     FROM games g
-    WHERE g.status = 'active' AND g.timeout_hours IS NOT NULL
+    WHERE g.status = 'active' AND g.timeout_minutes IS NOT NULL
       AND EXTRACT(EPOCH FROM (
         now() - COALESCE(
           (SELECT submitted_at FROM turns WHERE game_id = g.id ORDER BY round_number DESC LIMIT 1),
           g.created_at
         )
-      )) / 3600 > g.timeout_hours
+      )) / 60 > g.timeout_minutes
   `
 
   let processed = 0

@@ -8,7 +8,7 @@ export default function CreatePage() {
   const router = useRouter()
   const [openingLine, setOpeningLine] = useState('')
   const [rounds, setRounds] = useState(5)
-  const [timeoutHours, setTimeoutHours] = useState<number | ''>('')
+  const [timeoutMinutes, setTimeoutMinutes] = useState<number | null>(null)
   const [nickname, setNickname] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -26,7 +26,7 @@ export default function CreatePage() {
         body: JSON.stringify({
           opening_line: openingLine.trim(),
           total_rounds: rounds,
-          timeout_hours: timeoutHours === '' ? null : Number(timeoutHours),
+          timeout_minutes: timeoutMinutes,
         }),
       })
       const createData = await createRes.json()
@@ -71,7 +71,7 @@ export default function CreatePage() {
             onChange={e => setNickname(e.target.value)}
             placeholder="e.g. Alex"
             maxLength={20}
-            className="py-2 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white text-sm outline-none"
+            className="w-full py-2 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white text-sm outline-none"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -84,22 +84,37 @@ export default function CreatePage() {
             placeholder="It was a perfectly ordinary Tuesday…"
             rows={3}
             maxLength={500}
-            className="py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white text-sm resize-none outline-none italic"
+            className="w-full py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white text-sm resize-none outline-none italic"
           />
         </div>
         <RoundsInput value={rounds} onChange={setRounds} />
         <div className="flex flex-col gap-1">
           <label className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Per-turn timeout (hours, optional)
+            Turn time limit
           </label>
-          <input
-            type="number"
-            min={1}
-            value={timeoutHours}
-            onChange={e => setTimeoutHours(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-            placeholder="e.g. 24"
-            className="w-32 text-center py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-600 dark:text-slate-300 text-sm outline-none"
-          />
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { label: '5m', value: 5 },
+              { label: '15m', value: 15 },
+              { label: '30m', value: 30 },
+              { label: '1h', value: 60 },
+              { label: '24h', value: 1440 },
+              { label: 'None', value: null },
+            ].map((opt) => (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => setTimeoutMinutes(opt.value)}
+                className={`py-2 rounded-lg text-sm font-medium transition-colors ${
+                  timeoutMinutes === opt.value
+                    ? 'bg-[#e94560] text-white'
+                    : 'border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
         {error && <p className="text-red-500 text-sm" role="alert">{error}</p>}
         <button

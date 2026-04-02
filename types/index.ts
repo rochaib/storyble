@@ -9,7 +9,7 @@ export type Game = {
   status: GameStatus
   opening_line: string
   total_rounds: number
-  timeout_hours: number | null
+  timeout_minutes: number | null
   current_round: number
   created_at: string
 }

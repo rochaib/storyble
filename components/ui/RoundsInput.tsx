@@ -21,7 +21,7 @@ export function RoundsInput({ value, onChange }: Props) {
           const n = Math.min(1000, Math.max(1, parseInt(e.target.value, 10) || 1))
           onChange(n)
         }}
-        className="w-32 text-center py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white outline-none"
+        className="w-full text-center py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-[#0f3460] text-slate-800 dark:text-white outline-none"
       />
       {isWarning && (
         <p className="text-red-500 text-xs">Getting a bit long…</p>

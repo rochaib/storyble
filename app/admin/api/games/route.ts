@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     // Search by player nickname
     games = await sql`
       SELECT DISTINCT g.id, g.status, g.total_rounds, g.current_round,
-             g.created_at, g.timeout_hours
+             g.created_at, g.timeout_minutes
       FROM games g
       JOIN players p ON p.game_id = g.id
       WHERE g.status = ANY(${statusesToShow}::text[])
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   } else {
     games = await sql`
       SELECT g.id, g.status, g.total_rounds, g.current_round,
-             g.created_at, g.timeout_hours
+             g.created_at, g.timeout_minutes
       FROM games g
       WHERE g.status = ANY(${statusesToShow}::text[])
       ORDER BY g.created_at DESC
@@ -55,14 +55,14 @@ export async function GET(request: NextRequest) {
     return acc
   }, {})
 
-  type GameRow = { id: string; status: string; total_rounds: number; current_round: number; created_at: string; timeout_hours: number }
+  type GameRow = { id: string; status: string; total_rounds: number; current_round: number; created_at: string; timeout_minutes: number }
   const result = (games as GameRow[]).map((g: GameRow) => ({
     id: g.id,
     status: g.status,
     total_rounds: g.total_rounds,
     current_round: g.current_round,
     created_at: g.created_at,
-    timeout_hours: g.timeout_hours,
+    timeout_minutes: g.timeout_minutes,
     players: playersByGame[g.id] ?? [],
   }))
 

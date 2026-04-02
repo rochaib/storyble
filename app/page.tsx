@@ -43,17 +43,7 @@ export default function HomePage() {
 
   return (
     <main className="max-w-sm mx-auto px-6 py-8">
-      <TopBar
-        right={
-          <button
-            onClick={() => router.push('/create')}
-            aria-label="Create new game"
-            className="w-9 h-9 rounded-full bg-[#e94560] text-white text-2xl font-light flex items-center justify-center hover:bg-[#c73652] transition-colors leading-none"
-          >
-            +
-          </button>
-        }
-      />
+      <TopBar />
       <form onSubmit={handleJoin} className="flex flex-col items-center gap-4 mt-12">
         <p className="text-slate-400 dark:text-slate-500 text-xs tracking-widest uppercase">
           Enter game code
@@ -74,7 +64,13 @@ export default function HomePage() {
         >
           {loading ? 'Joining…' : 'Join'}
         </button>
-        <p className="text-slate-400 dark:text-slate-600 text-xs mt-4">Tap + to start a new game</p>
+        <button
+          type="button"
+          onClick={() => router.push('/create')}
+          className="w-48 py-3 rounded-lg border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-bold text-base hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors mt-2"
+        >
+          New Game
+        </button>
       </form>
     </main>
   )

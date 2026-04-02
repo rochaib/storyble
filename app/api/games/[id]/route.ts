@@ -13,7 +13,7 @@ export async function GET(
 
   const [game] = await sql`
     SELECT g.id, g.status, g.opening_line, g.total_rounds,
-           g.current_round, g.created_at, g.timeout_hours,
+           g.current_round, g.created_at, g.timeout_minutes,
            COUNT(p.id)::int AS player_count
     FROM games g
     LEFT JOIN players p ON p.game_id = g.id

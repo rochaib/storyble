@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json()
-  const { opening_line, total_rounds, timeout_hours } = body
+  const { opening_line, total_rounds, timeout_minutes } = body
 
   if (!opening_line?.trim()) {
     return NextResponse.json({ error: 'opening_line is required' }, { status: 400 })
@@ -39,13 +39,13 @@ export async function POST(request: NextRequest) {
   const codeHash = hashCode(code, codeSalt)
 
   const [game] = await sql`
-    INSERT INTO games (code_hash, code_salt, opening_line, total_rounds, timeout_hours)
+    INSERT INTO games (code_hash, code_salt, opening_line, total_rounds, timeout_minutes)
     VALUES (
       ${codeHash},
       ${codeSalt}::uuid,
       ${opening_line.trim()},
       ${total_rounds},
-      ${timeout_hours ?? null}
+      ${timeout_minutes ?? null}
     )
     RETURNING id, status, created_at
   `
