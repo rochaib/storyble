@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { TopBar } from '@/components/ui/TopBar'
 import { PlayerList } from '@/components/game/PlayerList'
@@ -14,6 +14,8 @@ export default function LobbyPage() {
   const [closing, setClosing] = useState(false)
   const [playerId, setPlayerId] = useState<string | null>(null)
   const [gameCode, setGameCode] = useState<string | null>(null)
+  const [toast, setToast] = useState('')
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,6 +51,28 @@ export default function LobbyPage() {
 
   const isCreator = data?.players.find(p => p.join_order === 1)?.id === playerId
   const canStart = isCreator && (data?.players.length ?? 0) >= 2
+
+  function showToast(msg: string) {
+    setToast(msg)
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => setToast(''), 2000)
+  }
+
+  async function handleShare() {
+    const url = `${window.location.origin}?code=${gameCode}`
+    const text = `Join my Storyble game!\nCode: ${gameCode}\n${url}`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ text })
+      } catch {
+        // User cancelled — ignore
+      }
+    } else {
+      await navigator.clipboard.writeText(text)
+      showToast('Copied to clipboard!')
+    }
+  }
 
   async function handleStart() {
     if (!playerId) return
@@ -107,10 +131,20 @@ export default function LobbyPage() {
       <TopBar />
       <div className="flex flex-col items-center gap-6">
         <div className="text-center">
-          <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Share this code</p>
-          <p className="text-4xl font-bold tracking-widest text-[#e94560]">
+          <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Game code</p>
+          <p className="text-4xl font-bold tracking-widest text-[#e94560] mb-3">
             {gameCode ?? '……'}
           </p>
+          <button
+            type="button"
+            onClick={handleShare}
+            className="px-5 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+          >
+            Share invite
+          </button>
+          {toast && (
+            <p className="text-xs text-green-500 mt-2 animate-pulse">{toast}</p>
+          )}
         </div>
         <div className="w-full">
           <p className="text-xs text-slate-400 uppercase tracking-widest mb-2">Players</p>

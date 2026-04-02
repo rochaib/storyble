@@ -1,15 +1,21 @@
 'use client'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { CodeInput } from '@/components/ui/CodeInput'
 import { TopBar } from '@/components/ui/TopBar'
 
-export default function HomePage() {
+function HomeContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [code, setCode] = useState('')
   const [nickname, setNickname] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const prefill = searchParams.get('code')
+    if (prefill) setCode(prefill.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6))
+  }, [searchParams])
 
   async function handleJoin(e: React.FormEvent) {
     e.preventDefault()
@@ -73,5 +79,13 @@ export default function HomePage() {
         </button>
       </form>
     </main>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
   )
 }
