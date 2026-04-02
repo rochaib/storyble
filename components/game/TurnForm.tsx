@@ -38,6 +38,7 @@ export function TurnForm({ gameId, playerId, onSubmitted }: Props) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <p className="text-xs text-slate-400 uppercase tracking-widest">Continue the story…</p>
       <textarea
+        dir="auto"
         value={sentence}
         onChange={e => setSentence(e.target.value)}
         placeholder="Write your sentence here…"

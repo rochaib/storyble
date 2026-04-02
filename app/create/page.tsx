@@ -79,6 +79,7 @@ export default function CreatePage() {
             Opening sentence
           </label>
           <textarea
+            dir="auto"
             value={openingLine}
             onChange={e => setOpeningLine(e.target.value)}
             placeholder="It was a perfectly ordinary Tuesday…"

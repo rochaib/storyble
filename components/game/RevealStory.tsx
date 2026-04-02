@@ -69,7 +69,7 @@ export function RevealStory({ entries, onAllRevealed }: Props) {
                     {entry.isOpening ? 'Opening:' : `${entry.nickname}:`}
                   </p>
                 )}
-                <p className="text-slate-700 dark:text-slate-100 text-sm italic leading-relaxed">
+                <p dir="auto" className="text-slate-700 dark:text-slate-100 text-sm italic leading-relaxed">
                   &ldquo;{entry.sentence}&rdquo;
                 </p>
               </div>

@@ -84,7 +84,7 @@ export default function StoryPage() {
                 <p className="text-xs mb-1" style={{ color: COLORS[i % COLORS.length] }}>
                   {entry.isOpening ? 'Opening:' : `${entry.nickname}:`}
                 </p>
-                <p className="text-slate-700 dark:text-slate-100 text-sm italic leading-relaxed">
+                <p dir="auto" className="text-slate-700 dark:text-slate-100 text-sm italic leading-relaxed">
                   &ldquo;{entry.sentence}&rdquo;
                 </p>
               </div>
