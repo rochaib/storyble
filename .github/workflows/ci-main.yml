@@ -1,0 +1,41 @@
+name: CI — Main
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+      UPSTASH_REDIS_REST_URL: ${{ secrets.TEST_UPSTASH_REDIS_REST_URL }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.TEST_UPSTASH_REDIS_REST_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Unit + API tests
+        run: npx vitest run --project unit --project api
+
+      - name: Integration tests
+        run: npx vitest run --project integration
+
+      - name: Install Playwright
+        run: npx playwright install chromium --with-deps
+
+      - name: E2E tests
+        run: cd e2e && npx playwright test
+
+      - name: Build
+        run: npx next build

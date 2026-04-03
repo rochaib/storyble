@@ -1,0 +1,1 @@
+npx tsc --noEmit && npx vitest run --project unit --project api

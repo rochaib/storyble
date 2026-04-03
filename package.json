@@ -6,8 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run --project unit --project api",
+    "test:unit": "vitest run --project unit",
+    "test:api": "vitest run --project api",
+    "test:integration": "vitest run --project integration",
+    "test:e2e": "npx playwright test",
+    "test:all": "vitest run && npx playwright test",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
@@ -23,6 +30,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -33,6 +41,7 @@
     "@types/react-dom": "^19",
     "@types/web-push": "^3.6.4",
     "@vitejs/plugin-react": "^6.0.1",
+    "husky": "^9.1.7",
     "jsdom": "^29.0.1",
     "tailwindcss": "^4",
     "typescript": "^5",
