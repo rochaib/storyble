@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+      DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
       UPSTASH_REDIS_REST_URL: ${{ secrets.TEST_UPSTASH_REDIS_REST_URL }}
       UPSTASH_REDIS_REST_TOKEN: ${{ secrets.TEST_UPSTASH_REDIS_REST_TOKEN }}
 

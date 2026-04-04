@@ -6,7 +6,7 @@ test('create page renders correctly on mobile', async ({ page }) => {
   await expect(page.getByPlaceholder('e.g. Alex')).toBeVisible()
   await expect(page.getByPlaceholder('It was a perfectly ordinary Tuesday')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Create Game' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '5m' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '5m', exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'None' })).toBeVisible()
 
   const body = page.locator('body')
