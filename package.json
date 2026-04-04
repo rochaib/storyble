@@ -10,8 +10,8 @@
     "test:unit": "vitest run --project unit",
     "test:api": "vitest run --project api",
     "test:integration": "vitest run --project integration",
-    "test:e2e": "npx playwright test",
-    "test:all": "vitest run && npx playwright test",
+    "test:e2e": "npx playwright test --config e2e/playwright.config.ts",
+    "test:all": "vitest run && npx playwright test --config e2e/playwright.config.ts",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "husky"
