@@ -1,0 +1,44 @@
+@media print {
+  /* Hide all UI chrome */
+  nav, button, .no-print,
+  [class*="TopBar"], [class*="rounded-full"] {
+    display: none !important;
+  }
+
+  /* Clean up the story layout */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 14pt;
+    line-height: 1.6;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Make story cards print-friendly */
+  [class*="rounded-lg"] {
+    border: none !important;
+    background: none !important;
+    padding-left: 12pt !important;
+    break-inside: avoid;
+  }
+
+  /* Keep the colored left borders for visual structure */
+  [style*="border-left"] {
+    border-left-width: 3pt !important;
+  }
+
+  /* Ensure text is black */
+  p, span, div {
+    color: black !important;
+  }
+
+  /* Hide progress bar, toggle, fast-forward */
+  .bg-slate-200, [class*="bg-white dark:bg-"] {
+    display: none !important;
+  }
+}

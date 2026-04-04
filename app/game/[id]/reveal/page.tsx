@@ -75,9 +75,15 @@ export default function RevealPage() {
               <ReactionBar />
               <button
                 onClick={handleShare}
-                className="w-full py-3 rounded-lg border-2 border-[#e94560] text-[#e94560] font-bold text-sm hover:bg-[#e94560] hover:text-white transition-colors"
+                className="no-print w-full py-3 rounded-lg border-2 border-[#e94560] text-[#e94560] font-bold text-sm hover:bg-[#e94560] hover:text-white transition-colors"
               >
                 {copied ? 'Link copied!' : 'Share Story'}
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="no-print w-full py-3 rounded-lg border-2 border-[#e94560] text-[#e94560] font-bold text-sm hover:bg-[#e94560] hover:text-white transition-colors"
+              >
+                Download PDF
               </button>
               <NpsPrompt />
               <InstallBanner />
